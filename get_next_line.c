@@ -6,7 +6,7 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/07 19:19:24 by emlecerf         ###   ########.fr       */
+/*   Updated: 2020/12/07 19:40:11 by emlecerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	len_max(const char *str)
 	return (i);
 }
 
-char		*ft_substr(char const *s, unsigned int start, int len)
+char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*tab;
 	size_t	i;
@@ -93,18 +93,18 @@ int			get_next_line(int fd, char **line)
 	{
 		if (i == 0)
 		{
-			ft_strdup("");
+			printf("i = 0\n");
 			return (0);
 		}
-		if ()
 		bf_tmp[i] = '\0';
 		if (!(buffer = ft_strjoin(buffer, bf_tmp)))
 			return (-1);
 	}
 	nl = len_max(buffer);
 	*line = ft_substr(buffer, 0, nl);
-	buffer = ft_substr(buffer, (nl + 1), ft_strlen(buffer) - nl);
-	printf("buffer : %s", buffer);
+	buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
+	if (*line[0] == '\0')
+		return (0);
 	return (1);
 }
 
@@ -115,15 +115,13 @@ int			main(int argc, char **argv)
 	char *line;
 
 	printf("FILE DESCRIPTOR : %d\n", fd);
-	while (get_next_line(fd, &line) != 0)
+	// int i = 0;
+	// while (++i < 10)
+	while (get_next_line(fd, &line))
 	{
-		while (get_next_line(fd, &line) != 1)
-		{
-			;
-		}
-		;
+		get_next_line(fd, &line);
+		printf("LINE : %s\n", line);
 	}
-	printf("LINE : %s\n", line);
 	free(line);
 	close(fd);
 }
