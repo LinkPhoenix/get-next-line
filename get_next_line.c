@@ -78,6 +78,17 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (tab);
 }
 
+static int	ft_strchr(const char *str, char s)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == '\n')
+			return (i);
+	return (-1);
+}
+
 int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
@@ -91,21 +102,27 @@ int			get_next_line(int fd, char **line)
 // all the line	
 	while ((i = read(fd, bf_tmp, BUFFER_SIZE)))
 	{
-		if (i == 0)
-		{
-			printf("i = 0\n");
-			return (0);
-		}
 		bf_tmp[i] = '\0';
 		if (!(buffer = ft_strjoin(buffer, bf_tmp)))
 			return (-1);
+		if (ft_strchr(buffer, '\n') != -1)
+		{
+			nl = ft_strchr(buffer, '\n');
+			*line = ft_substr(buffer, 0, nl);
+			buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
+			// printf("LINE : %s\n", *line);
+			// printf("BUFFER : %s\n", buffer);
+			return (1);
+		}
 	}
-	nl = len_max(buffer);
-	*line = ft_substr(buffer, 0, nl);
-	buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
-	if (*line[0] == '\0')
-		return (0);
-	return (1);
+	// nl = len_max(buffer);
+	// *line = ft_substr(buffer, 0, nl);
+	// buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
+	// printf("LINE : %s\n", *line);
+	// printf("BUFFER : %s\n", buffer);
+	// if (*line[0] == '\0')
+	// 	return (0);
+	return (0);
 }
 
 int			main(int argc, char **argv)
@@ -117,11 +134,9 @@ int			main(int argc, char **argv)
 	printf("FILE DESCRIPTOR : %d\n", fd);
 	// int i = 0;
 	// while (++i < 10)
-	while (get_next_line(fd, &line))
-	{
-		get_next_line(fd, &line);
+	while (get_next_line(fd, &line) != 0)
 		printf("LINE : %s\n", line);
-	}
+
 	free(line);
 	close(fd);
 }
