@@ -83,7 +83,7 @@ static int	ft_strchr(const char *str, char s)
 	int i;
 
 	i = -1;
-	while (str[++i])
+	while (str && str[++i])
 		if (str[i] == '\n')
 			return (i);
 	return (-1);
@@ -98,30 +98,20 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0)
 		return (-1);
-// IF BUFFER_SIZE is little (ex:2) I need "while" for read
-// all the line	
-	while ((i = read(fd, bf_tmp, BUFFER_SIZE)))
+	while (((nl = ft_strchr(buffer, '\n')) == -1) &&
+		(i = read(fd, bf_tmp, BUFFER_SIZE)))
 	{
 		bf_tmp[i] = '\0';
 		if (!(buffer = ft_strjoin(buffer, bf_tmp)))
 			return (-1);
-		if (ft_strchr(buffer, '\n') != -1)
-		{
-			nl = ft_strchr(buffer, '\n');
-			*line = ft_substr(buffer, 0, nl);
-			buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
-			// printf("LINE : %s\n", *line);
-			// printf("BUFFER : %s\n", buffer);
-			return (1);
-		}
 	}
-	// nl = len_max(buffer);
-	// *line = ft_substr(buffer, 0, nl);
-	// buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
-	// printf("LINE : %s\n", *line);
-	// printf("BUFFER : %s\n", buffer);
-	// if (*line[0] == '\0')
-	// 	return (0);
+	if (nl != -1)
+	{
+		*line = ft_substr(buffer, 0, nl);
+		buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl));
+		return (1);
+	}
+	*line = NULL;
 	return (0);
 }
 
@@ -130,13 +120,15 @@ int			main(int argc, char **argv)
 	(void)argc;
 	int fd = open(argv[1], O_RDONLY);
 	char *line;
+	int i;
 
 	printf("FILE DESCRIPTOR : %d\n", fd);
-	// int i = 0;
-	// while (++i < 10)
-	while (get_next_line(fd, &line) != 0)
-		printf("LINE : %s\n", line);
 
-	free(line);
+	while ((i = get_next_line(fd, &line) != 0) || line)
+	{
+		printf("[%d] LINE : %s\n",i, line);
+		free(line);
+	}
+
 	close(fd);
 }
