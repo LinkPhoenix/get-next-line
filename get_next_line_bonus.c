@@ -14,26 +14,27 @@
 
 int			get_next_line(int fd, char **line)
 {
-	static char	*buffer;
+	static char	*buffer[FD_MAX];
 	char		bf_tmp[BUFFER_SIZE + 1];
 	int			i;
 	int			nl;
 
 	if (fd < 0 || read(fd, bf_tmp, 0))
 		return (-1);
-	while (((nl = ft_strchr(buffer)) == -1) &&
+	while (((nl = ft_strchr(&buffer[FD_MAX])) == -1) &&
 		(i = read(fd, bf_tmp, BUFFER_SIZE)))
 	{
 		bf_tmp[i] = '\0';
-		if (!(buffer = ft_strjoin(buffer, bf_tmp)))
+		if (!(&buffer[FD_MAX] = ft_strjoin(&buffer[fd], bf_tmp)))
 			return (-1);
 	}
 	if (nl != -1)
 	{
-		*line = ft_substr(buffer, 0, nl, 0);
-		buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl), 1);
+		*line = ft_substr(&buffer[FD_MAX], 0, nl, 0);
+		&buffer[FD_MAX] = ft_substr(&buffer[FD_MAX], (nl + 1),
+			(ft_strlen(&buffer[FD_MAX]) - nl), 1);
 		return (1);
 	}
-	*line = buffer;
+	*line = &buffer[fd];
 	return (0);
 }
