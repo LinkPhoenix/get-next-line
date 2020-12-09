@@ -6,7 +6,7 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/07 19:40:11 by emlecerf         ###   ########.fr       */
+/*   Updated: 2020/12/09 10:24:02 by emlecerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			get_next_line(int fd, char **line)
 	int			i;
 	int			nl;
 
-	if (fd < 0 || read(fd, bf_tmp, 0))
+	if (fd < 0 || read(fd, bf_tmp, 0) || !line)
 		return (-1);
 	while (((nl = ft_strchr(buffer)) == -1) &&
 		(i = read(fd, bf_tmp, BUFFER_SIZE)))
@@ -35,5 +35,7 @@ int			get_next_line(int fd, char **line)
 		return (1);
 	}
 	*line = buffer;
+	buffer = malloc(sizeof(char) * 1);
+	buffer[0] = '\0';
 	return (0);
 }

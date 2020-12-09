@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:52:25 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/03 10:52:26 by emlecerf         ###   ########.fr       */
+/*   Updated: 2020/12/09 10:27:32 by emlecerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+int		ft_strlen(char *str)
 {
 	int i;
 
@@ -45,10 +45,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (tab);
 }
 
-char		*ft_substr(char *s, unsigned int start, int len, int f)
+char	*ft_substr(char *s, unsigned int start, int len, int f)
 {
 	char	*tab;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!s)
@@ -63,7 +63,7 @@ char		*ft_substr(char *s, unsigned int start, int len, int f)
 	return (tab);
 }
 
-int	ft_strchr(char *str)
+int		ft_strchr(char *str)
 {
 	int i;
 
