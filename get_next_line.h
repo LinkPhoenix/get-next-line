@@ -17,7 +17,6 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
-# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
