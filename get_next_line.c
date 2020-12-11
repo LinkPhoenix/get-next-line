@@ -6,7 +6,7 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/09 10:24:02 by emlecerf         ###   ########.fr       */
+/*   Updated: 2020/12/11 14:26:59 by emlecerf         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,25 @@ int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	char		bf_tmp[BUFFER_SIZE + 1];
-	int			i;
-	int			nl;
+	int			nbytes;
+ 	int			nl;
 
-	if (fd < 0 || read(fd, bf_tmp, 0) || !line)
+	if (fd < 0 || read(fd, bf_tmp, 0) || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	while (((nl = ft_strchr(buffer)) == -1) &&
-		(i = read(fd, bf_tmp, BUFFER_SIZE)))
+		(nbytes = read(fd, bf_tmp, BUFFER_SIZE)))
 	{
-		bf_tmp[i] = '\0';
-		if (!(buffer = ft_strjoin(buffer, bf_tmp)))
-			return (-1);
-	}
-	if (nl != -1)
-	{
-		*line = ft_substr(buffer, 0, nl, 0);
-		buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl), 1);
-		return (1);
-	}
-	*line = buffer;
+        bf_tmp[nbytes] = '\0';
+        if (!(buffer = ft_strjoin(buffer, bf_tmp)))
+            return (-1);
+    }
+    if (nl != -1)
+    {
+        *line = ft_substr(buffer, 0, nl, 0);
+        buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl), 1);
+        return (1);
+    }
+    *line = buffer;
 	buffer = malloc(sizeof(char) * 1);
 	buffer[0] = '\0';
 	return (0);
