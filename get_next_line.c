@@ -6,7 +6,7 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/16 14:35:13 by emlecerf         ###   ########          */
+/*   Updated: 2020/12/16 14:42:52 by emlecerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	last_line(char **line, char **buffer)
 	return (1);
 }
 
-int	get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	char		bf_tmp[BUFFER_SIZE + 1];
@@ -47,14 +47,6 @@ int	get_next_line(int fd, char **line)
 		*line = ft_substr(buffer, 0, nl, 0);
 		buffer = ft_substr(buffer, (nl + 1), (ft_strlen(buffer) - nl), 1);
 		return (1);
-	}
-	if (buffer)
-		*line = buffer;
-	else
-	{
-		if (!(*line = malloc(sizeof(char) * 1)))
-			return (-1);
-		*line[0] = '\0';
 	}
 	if (!(last_line(line, &buffer)))
 		return (-1);
