@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/11 11:21:18 by emlecerf         ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 14:35:28 by emlecerf         ###   ########          */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+static int	last_line(char **line, char **buffer)
+{
+	if (*buffer)
+		*line = *buffer;
+	else
+	{
+		if (!(*line = malloc(sizeof(char) * 1)))
+			return (0);
+		*line[0] = '\0';
+	}
+	*buffer = NULL;
+	return (1);
+}
 
 int			get_next_line(int fd, char **line)
 {
@@ -35,8 +49,7 @@ int			get_next_line(int fd, char **line)
 			(ft_strlen(buffer[fd]) - nl), 1);
 		return (1);
 	}
-	*line = buffer[fd];
-	buffer[fd] = malloc(sizeof(char) * 1);
-	buffer[fd][0] = '\0';
+	if (!(last_line(line, &buffer)))
+		return (-1);
 	return (0);
 }

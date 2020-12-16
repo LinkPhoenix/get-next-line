@@ -6,11 +6,25 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/11 16:05:38 by elecerf          ###   ########.fr       */
+/*   Updated: 2020/12/16 14:35:13 by emlecerf         ###   ########          */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int	last_line(char **line, char **buffer)
+{
+	if (*buffer)
+		*line = *buffer;
+	else
+	{
+		if (!(*line = malloc(sizeof(char) * 1)))
+			return (0);
+		*line[0] = '\0';
+	}
+	*buffer = NULL;
+	return (1);
+}
 
 int	get_next_line(int fd, char **line)
 {
@@ -42,6 +56,7 @@ int	get_next_line(int fd, char **line)
 			return (-1);
 		*line[0] = '\0';
 	}
-	buffer = NULL;
+	if (!(last_line(line, &buffer)))
+		return (-1);
 	return (0);
 }
