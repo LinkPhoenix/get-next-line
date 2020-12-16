@@ -6,7 +6,7 @@
 /*   By: emlecerf <emlecerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 10:51:59 by emlecerf          #+#    #+#             */
-/*   Updated: 2020/12/16 14:41:51 by emlecerf         ###   ########.fr       */
+/*   Updated: 2020/12/16 14:52:17 by emlecerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			get_next_line(int fd, char **line)
 			(ft_strlen(buffer[fd]) - nl), 1);
 		return (1);
 	}
-	if (!(last_line(line, &buffer)))
+	if (!(last_line(line, &buffer[fd])))
 		return (-1);
 	return (0);
 }
